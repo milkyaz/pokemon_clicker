@@ -7,88 +7,22 @@ import {
   CardMedia,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useForm, Controller, useFormState } from "react-hook-form";
+import { loginValidation, passwordValidation } from "./validation";
 
-const IMAGES = {
-  image1: new URL("./img/headerLogo.png", import.meta.url).href,
-  image2: new URL("./img/hd-logo1.png", import.meta.url).href,
-};
-
-export function Form() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+export const InputMain = () => {
+  const { handleSubmit, control } = useForm();
+  const { errors } = useFormState({
+    control,
   });
 
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-  });
-
-  const validateForm = () => {
-    const newErrors = {
-      name: formData.name === "" ? "Name is required" : "",
-      email: formData.email === "" ? "Email is required" : "",
-    };
-    setErrors(newErrors);
-
-    return !Object.values(newErrors).some(Boolean);
+  const IMAGES = {
+    image1: new URL("./img/headerLogo.png", import.meta.url).href,
+    image2: new URL("./img/hd-logo1.png", import.meta.url).href,
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" });
-  };
+  const onSubmit = (data) => console.log(data);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      // Submit the form or perform further actions here
-      console.log("Form data:", formData);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        name="name"
-        label="Name"
-        variant="outlined"
-        color="secondary"
-        sx={{ my: 1 }}
-        fullWidth
-        value={formData.name}
-        onChange={handleInputChange}
-        error={Boolean(errors.name)}
-        helperText={errors.name}
-      />
-      <TextField
-        name="email"
-        label="Email"
-        variant="outlined"
-        fullWidth
-        color="secondary"
-        sx={{ my: 1 }}
-        value={formData.email}
-        onChange={handleInputChange}
-        error={Boolean(errors.email)}
-        helperText={errors.email}
-      />
-      <Button
-        type="submit"
-        color="secondary"
-        sx={{ my: 1 }}
-        variant="contained"
-        fullWidth
-      >
-        Register
-      </Button>
-    </form>
-  );
-}
-
-function InputMain() {
   return (
     <Container
       sx={{
@@ -134,12 +68,69 @@ function InputMain() {
             Sign in
           </Typography>
         </Box>
-        <Box className="form__input">
-          <Form />
-        </Box>
+        <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            control={control}
+            name="login"
+            rules={loginValidation}
+            render={({ field }) => (
+              <TextField
+                label="Логин"
+                onChange={(e) => field.onChange(e)}
+                defaultValue={field.value}
+                fullWidth={true}
+                size="small"
+                margin="normal"
+                className="auth-form__input"
+                error={!!errors.login?.message}
+                helperText={errors?.login?.message}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="password"
+            rules={passwordValidation}
+            render={({ field }) => (
+              <TextField
+                label="Пароль"
+                onChange={(e) => field.onChange(e)}
+                defaultValue={field.value}
+                fullWidth={true}
+                size="small"
+                margin="normal"
+                type="password"
+                className="auth-form__input"
+                error={!!errors?.password?.message}
+                helperText={errors?.password?.message}
+              />
+            )}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth={true}
+            disableElevation={true}
+            style={{
+              marginTop: 16,
+            }}
+          >
+            Войти
+          </Button>
+        </form>
       </Box>
+      {/* <div className="auth-form__footer">
+        <Typography variant="subtitle1" component="span">
+          Нету аккаунта?{" "}
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          component="span"
+          style={{ color: "blue" }}
+        >
+          Зарегистрируйтесь
+        </Typography>
+      </div> */}
     </Container>
   );
-}
-
-export default InputMain;
+};

@@ -1,7 +1,8 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ExampleMaterialUI from "./components/ExampleMaterialUI";
-import InputMain from "./components/InputMain/InputMain";
+import { InputMain } from "./components/InputMain/InputMain";
+
 function App() {
   return (
     <BrowserRouter>
