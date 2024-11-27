@@ -55,7 +55,7 @@ export const InputMain = () => {
         </Box>
         <Paper elevation={3} sx={{ p: "24px" }}>
           <Box
-            sx={{ textAlign: "center", pr: "27px", mb: "10px" }}
+            sx={{ textAlign: "center", pr: "27px", mb: "16px" }}
             className="text__header-input"
           >
             <Link to="/register">
@@ -109,17 +109,19 @@ export const InputMain = () => {
                 />
               )}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth={true}
-              disableElevation={true}
-              style={{
-                marginTop: 16,
-              }}
-            >
-              Войти
-            </Button>
+            <Link to="/home-page-game">
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth={true}
+                disableElevation={true}
+                sx={{
+                  mt: "16px",
+                }}
+              >
+                Войти
+              </Button>
+            </Link>
           </form>
         </Paper>
       </Box>

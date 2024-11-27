@@ -56,12 +56,12 @@ export const Register = () => {
             }}
             component="img"
             image={IMAGES.image1}
-            alt="Paella  dish"
+            alt="Logo"
           />
         </Box>
         <Paper elevation={3} sx={{ p: "24px" }}>
           <Box
-            sx={{ textAlign: "center", pr: "27px", mb: "10px" }}
+            sx={{ textAlign: "center", pr: "27px", mb: "16px" }}
             className="text__header-input"
           >
             <Link to="/register">
@@ -83,12 +83,12 @@ export const Register = () => {
           </Box>
           <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
             <TextField
-              required
               id="username"
               name="username"
-              label="Username"
+              size="small"
+              margin="normal"
+              label="Логин"
               fullWidth
-              margin="dense"
               {...register("username")}
               error={errors.username ? true : false}
               helperText={errors?.username?.message}
@@ -97,10 +97,11 @@ export const Register = () => {
               required
               id="password"
               name="password"
-              label="Password"
+              label="Пароль"
               type="password"
               fullWidth
-              margin="dense"
+              size="small"
+              margin="normal"
               {...register("password")}
               error={errors.password ? true : false}
               helperText={errors?.password?.message}
@@ -110,10 +111,11 @@ export const Register = () => {
               required
               id="confirmPassword"
               name="confirmPassword"
-              label="Confirm Password"
+              label="Подтвердите пароль"
               type="password"
               fullWidth
-              margin="dense"
+              size="small"
+              margin="normal"
               {...register("confirmPassword")}
               error={errors.confirmPassword ? true : false}
               helperText={errors?.confirmPassword?.message}
@@ -125,10 +127,10 @@ export const Register = () => {
               color="primary"
               onClick={handleSubmit(onSubmit)}
               sx={{
-                mt: 16,
+                mt: "16px",
               }}
             >
-              Register
+              Зарегистрироваться
             </Button>
           </form>
         </Paper>
