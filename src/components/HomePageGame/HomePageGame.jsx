@@ -5,13 +5,73 @@ import {
   Box,
   Button,
   CardMedia,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { data } from "../data/data";
+import "./index.css";
 export const HomePageGame = () => {
   const IMAGES = {
     image1: new URL("./img/home-page-logo.png", import.meta.url).href,
     image2: new URL("./img/home-page-logo-2.png", import.meta.url).href,
     image3: new URL("./img/money-logo.png", import.meta.url).href,
+    image4: new URL("./img/My-Pokemons-logo.png", import.meta.url).href,
   };
+
+  const myPokemons = (
+    <Box
+      className="flex-box"
+      sx={{
+        display: "flex",
+        gap: "10px",
+        flexWrap: "wrap",
+        p: "16px",
+      }}
+    >
+      {data.map((el) => (
+        <Box
+          sx={{ boxShadow: 4, width: "165px", borderRadius: "16px" }}
+          key={el.id}
+        >
+          <CardContent
+            sx={{
+              p: "16px",
+              "&:last-child": {
+                pb: "16px",
+              },
+            }}
+          >
+            <Typography variant="h6">{el.name} </Typography>
+            <CardMedia
+              sx={{ width: "141px", height: "141px" }}
+              component="img"
+              image={el.img}
+              alt={el.name}
+            />
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              <Typography
+                sx={{ fontSize: "16px", fontWeight: "bold" }}
+                variant="p"
+              >
+                <span style={{ marginRight: "67px" }}>Вес</span> {el.weight}{" "}
+              </Typography>
+              <Typography
+                sx={{ fontSize: "16px", fontWeight: "bold" }}
+                variant="p"
+              >
+                <span style={{ marginRight: "35px" }}>Денек/сек</span>{" "}
+                {el.ratio}
+              </Typography>
+            </Box>
+          </CardContent>
+        </Box>
+      ))}
+    </Box>
+  );
   return (
     <>
       <Container
@@ -77,6 +137,24 @@ export const HomePageGame = () => {
             <Box className="inventory-items">
               <Box className="item"></Box>
             </Box>
+          </Box>
+          <Box className="my__pokemons">
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <CardMedia
+                  sx={{
+                    width: "170px",
+                    height: "35px",
+                  }}
+                  component="img"
+                  image={IMAGES.image4}
+                  alt="Logo"
+                />
+              </AccordionSummary>
+              <AccordionDetails>
+                <Card sx={{ boxShadow: 4 }}>{myPokemons}</Card>
+              </AccordionDetails>
+            </Accordion>
           </Box>
         </Box>
         <Box className="footer"></Box>
