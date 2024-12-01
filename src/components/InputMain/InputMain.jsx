@@ -22,8 +22,7 @@ export const InputMain = () => {
     image2: new URL("./img/hd-logo1.png", import.meta.url).href,
   };
 
-  const onSubmit = (data) => console.log(data);
-
+  const onSubmit = () => (document.location.href = "/home-page-game");
   return (
     <Container
       sx={{
@@ -109,19 +108,18 @@ export const InputMain = () => {
                 />
               )}
             />
-            <Link to="/home-page-game">
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth={true}
-                disableElevation={true}
-                sx={{
-                  mt: "16px",
-                }}
-              >
-                Войти
-              </Button>
-            </Link>
+
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth={true}
+              disableElevation={true}
+              sx={{
+                mt: "16px",
+              }}
+            >
+              Войти
+            </Button>
           </form>
         </Paper>
       </Box>
