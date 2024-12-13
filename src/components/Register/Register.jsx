@@ -72,7 +72,7 @@ export const Register = () => {
                 Зарегистрироваться
               </Typography>
             </Link>
-            <Link to="/input-main">
+            <Link to="/">
               <Typography
                 sx={{ fontSize: "14px", fontWeight: 400 }}
                 variant="p"

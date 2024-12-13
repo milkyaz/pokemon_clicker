@@ -1,12 +1,19 @@
-// pokemonsSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const randomPokemonId = Math.floor(Math.random() * 100) + 1;
 export const fetchPokemons = createAsyncThunk(
   "pokemons/fetchPokemons",
   async () => {
-    const response = await axios.get("https://pokeapi.co/api/v2/pokemon/?results");
-    return response.data;
+    const response = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`
+    );
+
+    // Получаем данные одного покемона
+    const pokemonData = response.data;
+
+    // Возвращаем данные одного покемона
+    return [pokemonData];
   }
 );
 

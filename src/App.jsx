@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="one" element={<ExampleMaterialUI />} />
-        <Route path="/input-main" element={<InputMain />} />
+        <Route path="/" element={<InputMain />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register2" element={<Example />} />
         <Route path="/home-page-game" element={<HomePageGame />} />
