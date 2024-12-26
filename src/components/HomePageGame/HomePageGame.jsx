@@ -8,13 +8,6 @@ import "./index.css";
 
 export const HomePageGame = () => {
   const [count, setCount] = useState(100000000);
-  useEffect(() => {
-    const id = setInterval(() => setCount((oldCount) => oldCount + 1), 1000);
-
-    return () => {
-      clearInterval(id);
-    };
-  }, []);
 
   return (
     <>

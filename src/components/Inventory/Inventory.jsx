@@ -1,4 +1,19 @@
-import { Box, Typography, CardMedia, Button } from "@mui/material";
+import { Box, Typography, CardMedia, Button,  } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import "./index.css";
+
+const Item = styled(Box)(({ theme }) => ({
+  backgroundColor: "#fff",
+
+  ...theme.typography.body2,
+  padding: 0,
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  ...theme.applyStyles("dark", {
+    backgroundColor: "#1A2027",
+  }),
+}));
+import Grid from "@mui/material/Grid2";
 
 export function Inventory({ setCount, count }) {
   const IMAGES = {
@@ -23,7 +38,23 @@ export function Inventory({ setCount, count }) {
       </Typography>
 
       <Box className="inventory-items">
-        <Box className="item"></Box>
+        {/* <Box className="item"></Box> */}
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid >
+              <Item className="item" sx={{ width: "48px", height: "48px", bgcolor: '#EFEFEF' }}>size=8</Item>
+            </Grid>
+            <Grid size={4}>
+              <Item className="item">size=4</Item>
+            </Grid>
+            <Grid size={4}>
+              <Item className="item">size=4</Item>
+            </Grid>
+            <Grid size={8}>
+              <Item className="item">size=8</Item>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
       <Button
         className="inventory__button"
