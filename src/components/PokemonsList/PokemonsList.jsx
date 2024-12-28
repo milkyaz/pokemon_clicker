@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import PokemonItem from "../PokemonItem/PokemonItem";
 
-export default function PokemonsList() {
+export default function PokemonsList({ secondValue }) {
   const dispatch = useDispatch();
   const pokemonsStatus = useSelector((state) => state.pokemons.status);
   const error = useSelector((state) => state.pokemons.error);
@@ -24,9 +24,9 @@ export default function PokemonsList() {
     if (!localStorage.getItem("pokemon")) {
       dispatch(fetchRandomPokemon());
     }
-  }, [dispatch]); 
+  }, [dispatch]);
 
   if (pokemonsStatus === "loading") return <div>Loading...</div>;
   if (pokemonsStatus === "failed") return <div>Error: {error}</div>;
-  return <PokemonItem />;
+  return <PokemonItem secondValue={secondValue} />;
 }
