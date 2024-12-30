@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchRandomBerry } from "../../store/berriesSlice";
 import { useEffect } from "react";
 import { styled } from "@mui/material/styles";
-// import BerryItem from "../BerryItem/BerryItem";
+import BerryItem from "../BerryItem/BerryItem";
 import Grid from "@mui/material/Grid2";
 import "./index.css";
 
@@ -117,7 +117,7 @@ export function Inventory({ setCount, count }) {
               <Item className="item">size=8</Item>
             </Grid>
           </Grid> */}
-          <BerryList />
+          <BerryItem />
         </Box>
       </Box>
       {/* <Button

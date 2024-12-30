@@ -1,4 +1,3 @@
-
 import { useState, useCallback, memo } from "react";
 import { Box, Typography, CardMedia, Modal, Button } from "@mui/material";
 import { useSelector } from "react-redux";
@@ -38,7 +37,7 @@ const styles = {
 };
 
 // Мемоизированный компонент модального окна
-const PokemonModal = memo(({ secondValue }) => {
+const PokemonModal = memo(() => {
   const pokemon = useSelector((state) => state.pokemons.pokemon);
   const [open, setOpen] = useState(false);
 
@@ -66,7 +65,7 @@ const PokemonModal = memo(({ secondValue }) => {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Weight: {pokemon.weight} кг
             <br />
-            Денек/сек: {secondValue}
+            Денек/сек:
           </Typography>
         </Box>
       </Modal>
@@ -75,7 +74,7 @@ const PokemonModal = memo(({ secondValue }) => {
 });
 
 // Мемоизированный основной компонент
-const PokemonItem = memo(({ secondValue }) => {
+const PokemonItem = memo(() => {
   const pokemon = useSelector((state) => state.pokemons.pokemon);
 
   if (!pokemon) return null;
@@ -92,14 +91,13 @@ const PokemonItem = memo(({ secondValue }) => {
           image={pokemon.sprites.front_default}
           alt={pokemon.name}
         />
-        <PokemonModal pokemon={pokemon} secondValue={secondValue} />
+        <PokemonModal pokemon={pokemon} />
         <Box className="item__bottom-text" sx={styles.bottomText}>
           <Typography sx={styles.typography} variant="p">
             <span style={{ marginRight: "81px" }}>Вес</span> {pokemon.weight} кг
           </Typography>
           <Typography sx={styles.typography} variant="p">
             <span style={{ marginRight: "67px" }}>Денек/сек</span>
-            {secondValue}
           </Typography>
         </Box>
       </Box>
