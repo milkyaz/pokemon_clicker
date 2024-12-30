@@ -1,10 +1,9 @@
 import { Box, Typography, CardMedia, Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchRandomBerry } from "../../store/berriesSlice";
+
 import { useEffect } from "react";
 import { styled } from "@mui/material/styles";
-// import BerryItem from "../BerryItem/BerryItem";
-import Grid from "@mui/material/Grid2";
+
 import "./index.css";
 
 const Item = styled(Box)(({ theme }) => ({
@@ -23,8 +22,6 @@ const Item = styled(Box)(({ theme }) => ({
 
 const BerryList = () => {
   const dispatch = useDispatch();
-  const pokemonsStatus = useSelector((state) => state.pokemons.status);
-  const error = useSelector((state) => state.pokemons.error);
 
   let visitCount = localStorage.getItem("page_view");
   if (visitCount) {
@@ -34,16 +31,6 @@ const BerryList = () => {
     visitCount = 1;
     localStorage.setItem("page_view", 1);
   }
-
-  useEffect(() => {
-    if (!localStorage.getItem("pokemon")) {
-      dispatch(fetchRandomBerry());
-    }
-  }, [dispatch]);
-
-  if (pokemonsStatus === "loading") return <div>Loading...</div>;
-  if (pokemonsStatus === "failed") return <div>Error: {error}</div>;
-  // return <BerryItem />;
 };
 
 export function Inventory({ setCount, count }) {
@@ -117,7 +104,6 @@ export function Inventory({ setCount, count }) {
               <Item className="item">size=8</Item>
             </Grid>
           </Grid> */}
-          <BerryList />
         </Box>
       </Box>
       {/* <Button

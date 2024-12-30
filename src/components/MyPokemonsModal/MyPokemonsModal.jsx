@@ -8,7 +8,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PokemonsList from "../PokemonsList/PokemonsList";
 
-export function MyPokemonsModal({secondValue}) {
+export function MyPokemonsModal() {
   const IMAGES = {
     image4: new URL("./img/My-Pokemons-logo.png", import.meta.url).href,
   };
@@ -21,7 +21,7 @@ export function MyPokemonsModal({secondValue}) {
         p: "16px",
       }}
     >
-      <PokemonsList secondValue={secondValue} />
+      <PokemonsList />
     </Box>
   );
   return (

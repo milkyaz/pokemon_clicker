@@ -1,13 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
-import { fetchRandomPokemon } from "../../store/pokemonsSlice";
+
 import { useEffect } from "react";
 
 import PokemonItem from "../PokemonItem/PokemonItem";
 
-export default function PokemonsList({ secondValue }) {
+export default function PokemonsList() {
   const dispatch = useDispatch();
-  const pokemonsStatus = useSelector((state) => state.pokemons.status);
-  const error = useSelector((state) => state.pokemons.error);
 
   let resetButton = document.querySelector("#reset");
 
@@ -20,13 +18,5 @@ export default function PokemonsList({ secondValue }) {
     localStorage.setItem("page_view", 1);
   }
 
-  useEffect(() => {
-    if (!localStorage.getItem("pokemon")) {
-      dispatch(fetchRandomPokemon());
-    }
-  }, [dispatch]);
-
-  if (pokemonsStatus === "loading") return <div>Loading...</div>;
-  if (pokemonsStatus === "failed") return <div>Error: {error}</div>;
-  return <PokemonItem secondValue={secondValue} />;
+  return <PokemonItem />;
 }

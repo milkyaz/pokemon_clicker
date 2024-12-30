@@ -1,7 +1,7 @@
-
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback, memo, useEffect } from "react";
 import { Box, Typography, CardMedia, Modal, Button } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPokemons } from "../../store/slices/pokemonsSlice";
 
 // Стили вынесены отдельно
 const styles = {
@@ -38,8 +38,7 @@ const styles = {
 };
 
 // Мемоизированный компонент модального окна
-const PokemonModal = memo(({ secondValue }) => {
-  const pokemon = useSelector((state) => state.pokemons.pokemon);
+const PokemonModal = memo(() => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = useCallback(() => {
@@ -60,13 +59,15 @@ const PokemonModal = memo(({ secondValue }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={styles.modalStyle}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {pokemon.name}
-          </Typography>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+          ></Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Weight: {pokemon.weight} кг
+            Weight: кг
             <br />
-            Денек/сек: {secondValue}
+            Денек/сек:
           </Typography>
         </Box>
       </Modal>
@@ -75,31 +76,32 @@ const PokemonModal = memo(({ secondValue }) => {
 });
 
 // Мемоизированный основной компонент
-const PokemonItem = memo(({ secondValue }) => {
-  const pokemon = useSelector((state) => state.pokemons.pokemon);
-
-  if (!pokemon) return null;
+const PokemonItem = memo(() => {
+  const dispatch = useDispatch();
+  const pokemons = useSelector((state) => state.pokemons.pokemons);
+  useEffect(() => {
+    dispatch(fetchPokemons());
+  }, []);
+  console.log(pokemons);
+  if (!pokemons) return null;
 
   return (
     <Box className={"box__item"}>
       <Box sx={styles.cardBox}>
-        <Typography sx={styles.typography} variant="p">
-          {pokemon.name}
-        </Typography>
+        <Typography sx={styles.typography} variant="p"></Typography>
         <CardMedia
           sx={styles.cardMedia}
           component="img"
-          image={pokemon.sprites.front_default}
-          alt={pokemon.name}
+          image={pokemons.sprites.front_default}
+          alt={pokemons.name}
         />
-        <PokemonModal pokemon={pokemon} secondValue={secondValue} />
+        <PokemonModal />
         <Box className="item__bottom-text" sx={styles.bottomText}>
           <Typography sx={styles.typography} variant="p">
-            <span style={{ marginRight: "81px" }}>Вес</span> {pokemon.weight} кг
+            <span style={{ marginRight: "81px" }}>Вес</span> кг
           </Typography>
           <Typography sx={styles.typography} variant="p">
             <span style={{ marginRight: "67px" }}>Денек/сек</span>
-            {secondValue}
           </Typography>
         </Box>
       </Box>
