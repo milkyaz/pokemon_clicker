@@ -3,16 +3,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchPokemons = createAsyncThunk("fetchPokemons", async () => {
   const random = Math.floor(Math.random() * 40);
   const strRandon = String(random);
-  const pokemons = await fetch(
+  const response = await fetch(
     `https://pokeapi.co/api/v2/pokemon/${strRandon}`
   );
-  return pokemons.json();
+  const pokemon = await response.json();
+  localStorage.setItem("randomPokemon", JSON.stringify(pokemon)); // Сохраняем покемона в localStorage
+  return pokemon;
 });
 const pokemonSlice = createSlice({
   name: "pokemons",
   initialState: {
     isLoading: false,
-    pokemons: null,
+    pokemons: JSON.parse(localStorage.getItem("randomPokemon")) || null,
     error: false,
   },
   extraReducers: (builder) => {

@@ -38,7 +38,7 @@ const styles = {
 };
 
 // Мемоизированный компонент модального окна
-const PokemonModal = memo(() => {
+const PokemonModal = memo(({ pokemons, res }) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = useCallback(() => {
@@ -65,9 +65,11 @@ const PokemonModal = memo(() => {
             component="h2"
           ></Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Weight: кг
+            <span style={{ marginRight: "119px" }}>Вес:</span>
+            {pokemons.weight} кг
             <br />
-            Денек/сек:
+            <span style={{ marginRight: "67px" }}>Денек/сек:</span>
+            {res.toFixed(2)}
           </Typography>
         </Box>
       </Modal>
@@ -79,12 +81,17 @@ const PokemonModal = memo(() => {
 const PokemonItem = memo(() => {
   const dispatch = useDispatch();
   const pokemons = useSelector((state) => state.pokemons.pokemons);
-  useEffect(() => {
-    dispatch(fetchPokemons());
-  }, []);
-  console.log(pokemons);
-  if (!pokemons) return null;
 
+  useEffect(() => {
+    if (!pokemons) {
+      dispatch(fetchPokemons());
+    }
+  }, [dispatch, pokemons]);
+
+  if (!pokemons) return null;
+  const earningsPerKg = 1.1 / 12; // Денег на килограмм
+  const res = pokemons.weight * earningsPerKg;
+console.log(pokemons)
   return (
     <Box className={"box__item"}>
       <Box sx={styles.cardBox}>
@@ -95,13 +102,15 @@ const PokemonItem = memo(() => {
           image={pokemons.sprites.front_default}
           alt={pokemons.name}
         />
-        <PokemonModal />
+        <PokemonModal pokemons={pokemons} res={res} />
         <Box className="item__bottom-text" sx={styles.bottomText}>
           <Typography sx={styles.typography} variant="p">
-            <span style={{ marginRight: "81px" }}>Вес</span> кг
+            <span style={{ marginRight: "105px" }}>Вес:</span>
+            {pokemons.weight} кг
           </Typography>
           <Typography sx={styles.typography} variant="p">
-            <span style={{ marginRight: "67px" }}>Денек/сек</span>
+            <span style={{ marginRight: "67px" }}>Денек/сек:</span>
+            {res.toFixed(2)}
           </Typography>
         </Box>
       </Box>

@@ -1,6 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
-
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import PokemonItem from "../PokemonItem/PokemonItem";
 
