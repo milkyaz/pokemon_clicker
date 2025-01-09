@@ -55,8 +55,9 @@ const Item = styled(Box)(({ theme }) => ({
 export default function BerryItem() {
   const dispatch = useDispatch();
   const berries = useSelector((state) => state.berries.berries);
-  const berryImageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berries.item.name}.png`;
-  console.log('berry', berries)
+  const berryImageUrl = berries?.item?.name
+    ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berries.item.name}.png`
+    : null;
 
   useEffect(() => {
     if (!berries) {
@@ -88,6 +89,7 @@ export default function BerryItem() {
               <CardMedia
                 sx={styles.cardMedia}
                 component="img"
+                id={berries.id}
                 image={berryImageUrl}
                 alt={berries.name}
               />
