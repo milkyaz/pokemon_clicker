@@ -19,7 +19,6 @@ export const HomePageGame = () => {
         <Box className="main__content" sx={{ display: "flex", mt: "20px" }}>
           <Inventory />
           <MyPokemonsModal />
-
           <Shop />
         </Box>
         <Box className="footer"></Box>
