@@ -1,12 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchBerries = createAsyncThunk("fetchBerries", async () => {
-  const random = Math.floor(Math.random() * 40);
-  const strRandom = String(random);
-  const response = await fetch(`https://pokeapi.co/api/v2/berry/${strRandom}`);
-  const berry = await response.json();
-  localStorage.setItem("randomBerry", JSON.stringify(berry)); // Сохраняем ягоду в localStorage
-  return berry;
+  const berries = [];
+  for (let i = 0; i < 10; i++) {
+    const random = Math.floor(Math.random() * 40);
+    const strRandom = String(random);
+    const response = await fetch(`https://pokeapi.co/api/v2/berry/${strRandom}`);
+    const berry = await response.json();
+    berries.push(berry);
+  }
+  localStorage.setItem("randomBerry", JSON.stringify(berries)); // Сохраняем ягоды в localStorage
+  return berries;
 });
 const berrySlice = createSlice({
   name: "berries",

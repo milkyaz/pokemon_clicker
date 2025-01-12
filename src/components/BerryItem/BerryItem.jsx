@@ -1,7 +1,4 @@
 import { Typography, CardMedia, Box } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { fetchBerries } from "../../store/slices/berriesSlice";
 import Grid from "@mui/material/Grid2";
 import { styled } from "@mui/material/styles";
 
@@ -47,132 +44,50 @@ const Item = styled(Box)(({ theme }) => ({
   padding: 0,
   textAlign: "center",
   color: theme.palette.text.secondary,
+  position: "relative", // Добавлено для позиционирования счетчика
   ...theme.applyStyles("dark", {
     backgroundColor: "#1A2027",
   }),
 }));
 
-export default function BerryItem() {
-  const dispatch = useDispatch();
-  const berries = useSelector((state) => state.berries.berries);
-  const berryImageUrl = berries?.item?.name
-    ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berries.item.name}.png`
-    : null;
-
-  useEffect(() => {
-    if (!berries) {
-      dispatch(fetchBerries());
-    }
-  }, [dispatch, berries]);
-
-  useEffect(() => {
-    let visitCount = localStorage.getItem("page_view");
-    if (visitCount) {
-      visitCount = Number(visitCount) + 1;
-    } else {
-      visitCount = 1;
-    }
-    localStorage.setItem("page_view", visitCount);
-  }, []);
-
-  if (!berries) return null;
+export default function BerryItem({ items = [] }) {
+  if (!items.length) return null;
 
   return (
     <Box className="inventory-items" sx={{ mt: "16px" }}>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={1.2}>
-          <Grid>
-            <Item className="item">
-              <Typography sx={styles.typography} variant="p">
-                {/* {berries.name} */}
-              </Typography>
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                id={berries.id}
-                image={berryImageUrl}
-                alt={berries.name}
-              />
-            </Item>
-          </Grid>
-          <Grid>
-            <Item className="item">
-              <Typography sx={styles.typography} variant="p">
-                {/* {berries.name} */}
-              </Typography>
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                image={berryImageUrl}
-                alt={berries.name}
-              />
-            </Item>
-          </Grid>
-          <Grid>
-            <Item className="item">
-              <Typography sx={styles.typography} variant="p">
-                {/* {berries.name} */}
-              </Typography>
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                image={berryImageUrl}
-                alt={berries.name}
-              />
-            </Item>
-          </Grid>
-          <Grid>
-            <Item className="item">
-              <Typography sx={styles.typography} variant="p">
-                {/* {berries.name} */}
-              </Typography>
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                image={berryImageUrl}
-                alt={berries.name}
-              />
-            </Item>
-          </Grid>
-          <Grid>
-            <Item className="item">
-              <Typography sx={styles.typography} variant="p">
-                {/* {berries.name} */}
-              </Typography>
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                image={berryImageUrl}
-                alt={berries.name}
-              />
-            </Item>
-          </Grid>
-          <Grid>
-            <Item className="item">
-              <Typography sx={styles.typography} variant="p">
-                {/* {berries.name} */}
-              </Typography>
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                image={berryImageUrl}
-                alt={berries.name}
-              />
-            </Item>
-          </Grid>
-          <Grid>
-            <Item className="item">
-              <Typography sx={styles.typography} variant="p">
-                {/* {berries.name} */}
-              </Typography>
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                image={berryImageUrl}
-                alt={berries.name}
-              />
-            </Item>
-          </Grid>
+          {items.map((berry) => (
+            <Grid item key={berry.id}>
+              <Item className="item">
+                <CardMedia
+                  sx={styles.cardMedia}
+                  component="img"
+                  id={berry.id}
+                  image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berry.item.name}.png`}
+                  alt={berry.name}
+                />
+                {berry.quantity > 1 && (
+                  <Typography
+                    sx={{
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                      bgcolor: "rgba(0,0,0,0.6)",
+                      color: "white",
+                      padding: "2px 4px",
+                      borderRadius: "4px",
+                      fontSize: "12px",
+                      minWidth: "20px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {berry.quantity}
+                  </Typography>
+                )}
+              </Item>
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </Box>

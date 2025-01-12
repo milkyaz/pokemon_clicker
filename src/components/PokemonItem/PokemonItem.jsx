@@ -91,7 +91,7 @@ const PokemonItem = memo(() => {
   if (!pokemons) return null;
   const earningsPerKg = 1.1 / 12; // Денег на килограмм
   const res = pokemons.weight * earningsPerKg;
-console.log(pokemons)
+
   return (
     <Box className={"box__item"}>
       <Box sx={styles.cardBox}>
