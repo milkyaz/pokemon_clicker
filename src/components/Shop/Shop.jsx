@@ -10,6 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchBerries } from "../../store/slices/berriesSlice";
+import { fetchItems } from "../../store/slices/itemsSlice";
 import { styled } from "@mui/material/styles";
 
 export default function Shop({ onBuyBerry }) {
@@ -64,6 +65,8 @@ export default function Shop({ onBuyBerry }) {
 
   const dispatch = useDispatch();
   const berries = useSelector((state) => state.berries.berries);
+  const items = useSelector((state) => state.items.items);
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
@@ -86,7 +89,13 @@ export default function Shop({ onBuyBerry }) {
     }
   }, [dispatch, berries]);
 
-  if (!berries || berries.length === 0) {
+  useEffect(() => {
+    if (!items || items.length === 0) {
+      dispatch(fetchItems());
+    }
+  }, [dispatch, items]);
+
+  if (!items || items.length === 0) {
     return <Typography>Loading...</Typography>;
   }
 
