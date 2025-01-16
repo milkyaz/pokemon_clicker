@@ -95,7 +95,34 @@ export default function Shop({ onBuyBerry }) {
     }
   }, [dispatch, items]);
 
+  let newArr = {
+    berries,
+    items,
+  };
+
+  console.log((newArr["berries"].category1));
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const handleCheckboxChange = (e) => {
+    const value = e.target.value;
+    setSelectedOptions((prevSelected) => {
+      if (prevSelected.includes(value)) {
+        return prevSelected.filter((option) => option !== value);
+      } else {
+        return [...prevSelected, value];
+      }
+    });
+  };
+
+  for (let key in newArr) {
+    console.log(key);
+  }
+
   if (!items || items.length === 0) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  if (!berries || berries.length === 0) {
     return <Typography>Loading...</Typography>;
   }
 
@@ -112,12 +139,45 @@ export default function Shop({ onBuyBerry }) {
         p: "16px 16px 9px 16px",
       }}
     >
+      <div className="container">
+        <h3 className="title">React Checkbox Filter Example</h3>
+        <div className="checkbox-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              value="TV Series"
+              checked={selectedOptions.includes("TV Series")}
+              onChange={handleCheckboxChange}
+              className="checkbox-input"
+            />
+            Berries
+          </label>
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              value="Webseries"
+              checked={selectedOptions.includes("Webseries")}
+              onChange={handleCheckboxChange}
+              className="checkbox-input"
+            />
+            Items
+          </label>
+        </div>
+        <ul>
+          {/* {filteredData.map((item) => (
+            <li key={item.id} className="list-item">
+              {item.id} {item.title}
+            </li>
+          ))} */}
+        </ul>
+      </div>
+
       <Typography variant="h4" sx={{ fontSize: "24px" }}>
         Магазин
       </Typography>
 
       <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
-        {berries.map((berry, index) => {
+        {newArr.berries.map((berry, index) => {
           const levelBerry = berry.firmness.url.split("/").slice(-2, -1)[0];
           return (
             <Card
@@ -156,6 +216,51 @@ export default function Shop({ onBuyBerry }) {
               >
                 <Button
                   onClick={() => handleBuyBerry(berry)}
+                  sx={{
+                    width: "270px",
+                    background: "rgb(54, 95, 172)",
+                    color: "white",
+                    "&:hover": {
+                      background: "rgb(39, 73, 138)",
+                    },
+                  }}
+                >
+                  Купить
+                </Button>
+              </Box>
+            </Card>
+          );
+        })}
+        {newArr.items.map((item, index) => {
+          return (
+            <Card
+              sx={{
+                marginBottom: "8px",
+              }}
+              key={index}
+            >
+              <Box sx={{ display: "flex", marginBottom: "12px", mt: "12px" }}>
+                <Item>
+                  <CardMedia
+                    sx={styles.cardMedia}
+                    component="img"
+                    image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`}
+                    id={item.id}
+                    alt={item.name}
+                  />
+                </Item>
+                <Box>
+                  <Box></Box>
+                  <Typography variant="p" sx={{ fontSize: "14px" }}>
+                    {item.name}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box
+                sx={{ display: "flex", justifyContent: "center", mb: "12px" }}
+              >
+                <Button
+                  onClick={() => handleBuyBerry(item)}
                   sx={{
                     width: "270px",
                     background: "rgb(54, 95, 172)",
