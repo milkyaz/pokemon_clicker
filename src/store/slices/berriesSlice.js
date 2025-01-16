@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchBerries = createAsyncThunk("fetchBerries", async () => {
   const berries = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 25; i++) {
     const random = Math.floor(Math.random() * 40);
     const strRandom = String(random);
     const response = await fetch(`https://pokeapi.co/api/v2/berry/${strRandom}`);
