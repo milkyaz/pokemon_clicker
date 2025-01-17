@@ -11,7 +11,43 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchBerries } from "../../store/slices/berriesSlice";
 import { fetchItems } from "../../store/slices/itemsSlice";
-import { styled } from "@mui/material/styles";
+import { keyframes, styled } from "@mui/material/styles";
+import Select from "react-select";
+
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? "#ff00ff" : "#ffd1dc",
+    color: state.isSelected ? "#ffff00" : "#800080",
+    padding: 20,
+    border: state.isSelected ? "2px solid #32CD32" : "1px solid #0000ff",
+    "&:hover": {
+      backgroundColor: "#7fffd4",
+      color: "#0000ff",
+    },
+  }),
+  control: (provided) => ({
+    ...provided,
+    minHeight: 50,
+    backgroundColor: "#ffc0cb",
+    borderRadius: 25,
+    border: "2px solid #ff00ff",
+    fontSize: 20,
+    "&:hover": {
+      borderColor: "#7fffd4",
+    },
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: "#ff00ff",
+    fontSize: 20,
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: "#ff00ff",
+    fontSize: 20,
+  }),
+};
 
 export default function Shop({ onBuyBerry }) {
   const styles = {
@@ -95,28 +131,16 @@ export default function Shop({ onBuyBerry }) {
     }
   }, [dispatch, items]);
 
-  let newArr = {
-    berries,
-    items,
+  const [selectedOption, setSelectedOption] = useState(null);
+  const options = [
+    { value: "option1", label: "Berries" },
+    { value: "option2", label: "Items" },
+    { value: "option3", label: "All" },
+  ];
+
+  const handleChange = (selectedOption) => {
+    setSelectedOption(selectedOption);
   };
-
-  console.log((newArr["berries"].category1));
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
-  const handleCheckboxChange = (e) => {
-    const value = e.target.value;
-    setSelectedOptions((prevSelected) => {
-      if (prevSelected.includes(value)) {
-        return prevSelected.filter((option) => option !== value);
-      } else {
-        return [...prevSelected, value];
-      }
-    });
-  };
-
-  for (let key in newArr) {
-    console.log(key);
-  }
 
   if (!items || items.length === 0) {
     return <Typography>Loading...</Typography>;
@@ -140,143 +164,271 @@ export default function Shop({ onBuyBerry }) {
       }}
     >
       <div className="container">
-        <h3 className="title">React Checkbox Filter Example</h3>
-        <div className="checkbox-group">
-          <label className="checkbox-label">
-            <input
-              type="checkbox"
-              value="TV Series"
-              checked={selectedOptions.includes("TV Series")}
-              onChange={handleCheckboxChange}
-              className="checkbox-input"
-            />
-            Berries
-          </label>
-          <label className="checkbox-label">
-            <input
-              type="checkbox"
-              value="Webseries"
-              checked={selectedOptions.includes("Webseries")}
-              onChange={handleCheckboxChange}
-              className="checkbox-input"
-            />
-            Items
-          </label>
-        </div>
-        <ul>
-          {/* {filteredData.map((item) => (
-            <li key={item.id} className="list-item">
-              {item.id} {item.title}
-            </li>
-          ))} */}
-        </ul>
-      </div>
+        <div>
+          <Select
+            options={options}
+            value={selectedOption}
+            onChange={handleChange}
+          />
+          <Typography variant="h4" sx={{ fontSize: "24px" }}>
+            Магазин
+          </Typography>
+          {selectedOption?.label === "Berries" ? (
+            <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
+              {berries.map((berry, index) => {
+                const levelBerry = berry.firmness.url
+                  .split("/")
+                  .slice(-2, -1)[0];
 
-      <Typography variant="h4" sx={{ fontSize: "24px" }}>
-        Магазин
-      </Typography>
-
-      <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
-        {newArr.berries.map((berry, index) => {
-          const levelBerry = berry.firmness.url.split("/").slice(-2, -1)[0];
-          return (
-            <Card
-              sx={{
-                marginBottom: "8px",
-              }}
-              key={index}
-            >
-              <Box sx={{ display: "flex", marginBottom: "12px", mt: "12px" }}>
-                <Item>
-                  <CardMedia
-                    sx={styles.cardMedia}
-                    component="img"
-                    id={berry.id}
-                    image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berry.item.name}.png`}
-                    alt={berry.name}
-                  />
-                </Item>
-                <Box>
-                  <Box>
-                    <Typography
-                      variant="p"
-                      sx={{ fontSize: "16px", fontWeight: "bold" }}
+                return (
+                  <Card
+                    sx={{
+                      marginBottom: "8px",
+                    }}
+                    key={index}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        marginBottom: "12px",
+                        mt: "12px",
+                      }}
                     >
-                      Ягода {levelBerry} уровня
-                    </Typography>
-                  </Box>
-                  <Typography variant="p" sx={{ fontSize: "14px" }}>
-                    Накорми ей покемона для увеличения веса на{" "}
-                    {berry.natural_gift_power} кг
-                  </Typography>
-                </Box>
-              </Box>
-              <Box
-                sx={{ display: "flex", justifyContent: "center", mb: "12px" }}
-              >
-                <Button
-                  onClick={() => handleBuyBerry(berry)}
-                  sx={{
-                    width: "270px",
-                    background: "rgb(54, 95, 172)",
-                    color: "white",
-                    "&:hover": {
-                      background: "rgb(39, 73, 138)",
-                    },
-                  }}
-                >
-                  Купить
-                </Button>
-              </Box>
-            </Card>
-          );
-        })}
-        {newArr.items.map((item, index) => {
-          return (
-            <Card
-              sx={{
-                marginBottom: "8px",
-              }}
-              key={index}
-            >
-              <Box sx={{ display: "flex", marginBottom: "12px", mt: "12px" }}>
-                <Item>
-                  <CardMedia
-                    sx={styles.cardMedia}
-                    component="img"
-                    image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`}
-                    id={item.id}
-                    alt={item.name}
-                  />
-                </Item>
-                <Box>
-                  <Box></Box>
-                  <Typography variant="p" sx={{ fontSize: "14px" }}>
-                    {item.name}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box
-                sx={{ display: "flex", justifyContent: "center", mb: "12px" }}
-              >
-                <Button
-                  onClick={() => handleBuyBerry(item)}
-                  sx={{
-                    width: "270px",
-                    background: "rgb(54, 95, 172)",
-                    color: "white",
-                    "&:hover": {
-                      background: "rgb(39, 73, 138)",
-                    },
-                  }}
-                >
-                  Купить
-                </Button>
-              </Box>
-            </Card>
-          );
-        })}
-      </Box>
+                      <Item>
+                        <CardMedia
+                          sx={styles.cardMedia}
+                          component="img"
+                          id={berry.id}
+                          image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berry.item.name}.png`}
+                          alt={berry.name}
+                        />
+                      </Item>
+                      <Box>
+                        <Box>
+                          <Typography
+                            variant="p"
+                            sx={{ fontSize: "16px", fontWeight: "bold" }}
+                          >
+                            Ягода {levelBerry} уровня
+                          </Typography>
+                        </Box>
+                        <Typography variant="p" sx={{ fontSize: "14px" }}>
+                          Накорми ей покемона для увеличения веса на{" "}
+                          {berry.natural_gift_power} кг
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: "12px",
+                      }}
+                    >
+                      <Button
+                        onClick={() => handleBuyBerry(berry)}
+                        sx={{
+                          width: "270px",
+                          background: "rgb(54, 95, 172)",
+                          color: "white",
+                          "&:hover": {
+                            background: "rgb(39, 73, 138)",
+                          },
+                        }}
+                      >
+                        Купить
+                      </Button>
+                    </Box>
+                  </Card>
+                );
+              })}
+            </Box>
+          ) : selectedOption?.label === "Items" ? (
+            <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
+              {items.map((item, index) => {
+                return (
+                  <Card
+                    sx={{
+                      marginBottom: "8px",
+                    }}
+                    key={index}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        marginBottom: "12px",
+                        mt: "12px",
+                      }}
+                    >
+                      <Item>
+                        <CardMedia
+                          sx={styles.cardMedia}
+                          component="img"
+                          image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`}
+                          id={item.id}
+                          alt={item.name}
+                        />
+                      </Item>
+                      <Box>
+                        <Box></Box>
+                        <Typography variant="p" sx={{ fontSize: "14px" }}>
+                          {item.name}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: "12px",
+                      }}
+                    >
+                      <Button
+                        onClick={() => handleBuyBerry(item)}
+                        sx={{
+                          width: "270px",
+                          background: "rgb(54, 95, 172)",
+                          color: "white",
+                          "&:hover": {
+                            background: "rgb(39, 73, 138)",
+                          },
+                        }}
+                      >
+                        Купить
+                      </Button>
+                    </Box>
+                  </Card>
+                );
+              })}
+            </Box>
+          ) : (
+            <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
+              {berries.map((berry, index) => {
+                const levelBerry = berry.firmness.url
+                  .split("/")
+                  .slice(-2, -1)[0];
+
+                return (
+                  <Card
+                    sx={{
+                      marginBottom: "8px",
+                    }}
+                    key={index}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        marginBottom: "12px",
+                        mt: "12px",
+                      }}
+                    >
+                      <Item>
+                        <CardMedia
+                          sx={styles.cardMedia}
+                          component="img"
+                          id={berry.id}
+                          image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berry.item.name}.png`}
+                          alt={berry.name}
+                        />
+                      </Item>
+                      <Box>
+                        <Box>
+                          <Typography
+                            variant="p"
+                            sx={{ fontSize: "16px", fontWeight: "bold" }}
+                          >
+                            Ягода {levelBerry} уровня
+                          </Typography>
+                        </Box>
+                        <Typography variant="p" sx={{ fontSize: "14px" }}>
+                          Накорми ей покемона для увеличения веса на{" "}
+                          {berry.natural_gift_power} кг
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: "12px",
+                      }}
+                    >
+                      <Button
+                        onClick={() => handleBuyBerry(berry)}
+                        sx={{
+                          width: "270px",
+                          background: "rgb(54, 95, 172)",
+                          color: "white",
+                          "&:hover": {
+                            background: "rgb(39, 73, 138)",
+                          },
+                        }}
+                      >
+                        Купить
+                      </Button>
+                    </Box>
+                  </Card>
+                );
+              })}
+              {items.map((item, index) => {
+                return (
+                  <Card
+                    sx={{
+                      marginBottom: "8px",
+                    }}
+                    key={index}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        marginBottom: "12px",
+                        mt: "12px",
+                      }}
+                    >
+                      <Item>
+                        <CardMedia
+                          sx={styles.cardMedia}
+                          component="img"
+                          image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`}
+                          id={item.id}
+                          alt={item.name}
+                        />
+                      </Item>
+                      <Box>
+                        <Box></Box>
+                        <Typography variant="p" sx={{ fontSize: "14px" }}>
+                          {item.name}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        mb: "12px",
+                      }}
+                    >
+                      <Button
+                        onClick={() => handleBuyBerry(item)}
+                        sx={{
+                          width: "270px",
+                          background: "rgb(54, 95, 172)",
+                          color: "white",
+                          "&:hover": {
+                            background: "rgb(39, 73, 138)",
+                          },
+                        }}
+                      >
+                        Купить
+                      </Button>
+                    </Box>
+                  </Card>
+                );
+              })}
+            </Box>
+          )}
+        </div>
+      </div>
 
       <Snackbar
         open={snackbarOpen}
