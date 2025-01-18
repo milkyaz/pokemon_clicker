@@ -88,86 +88,88 @@ export default function BerriesShop({ onBuyBerry }) {
     return <Typography>Loading...</Typography>;
   }
 
-  <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
-    {berries.map((berry, index) => {
-      const levelBerry = berry.firmness.url.split("/").slice(-2, -1)[0];
+  return (
+    <>
+      {berries.map((berry, index) => {
+        const levelBerry = berry.firmness.url.split("/").slice(-2, -1)[0];
 
-      return (
-        <Card
-          sx={{
-            marginBottom: "8px",
-          }}
-          key={index}
-        >
-          <Box
+        return (
+          <Card
             sx={{
-              display: "flex",
-              marginBottom: "12px",
-              mt: "12px",
+              marginBottom: "8px",
             }}
+            key={index}
           >
-            <Item>
-              <CardMedia
-                sx={styles.cardMedia}
-                component="img"
-                id={berry.id}
-                image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berry.item.name}.png`}
-                alt={berry.name}
-              />
-            </Item>
-            <Box>
-              <Box>
-                <Typography
-                  variant="p"
-                  sx={{ fontSize: "16px", fontWeight: "bold" }}
-                >
-                  Ягода {levelBerry} уровня
-                </Typography>
-              </Box>
-              <Typography variant="p" sx={{ fontSize: "14px" }}>
-                Накорми ей покемона для увеличения веса на{" "}
-                {berry.natural_gift_power} кг
-              </Typography>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mb: "12px",
-            }}
-          >
-            <Button
-              onClick={() => handleBuyBerry(berry)}
+            <Box
               sx={{
-                width: "270px",
-                background: "rgb(54, 95, 172)",
-                color: "white",
-                "&:hover": {
-                  background: "rgb(39, 73, 138)",
-                },
+                display: "flex",
+                marginBottom: "12px",
+                mt: "12px",
               }}
             >
-              Купить
-            </Button>
-          </Box>
-        </Card>
-      );
-    })}
+              <Item>
+                <CardMedia
+                  sx={styles.cardMedia}
+                  component="img"
+                  id={berry.id}
+                  image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${berry.item.name}.png`}
+                  alt={berry.name}
+                />
+              </Item>
+              <Box>
+                <Box>
+                  <Typography
+                    variant="p"
+                    sx={{ fontSize: "16px", fontWeight: "bold" }}
+                  >
+                    Ягода {levelBerry} уровня
+                  </Typography>
+                </Box>
+                <Typography variant="p" sx={{ fontSize: "14px" }}>
+                  Накорми ей покемона для увеличения веса на{" "}
+                  {berry.natural_gift_power} кг
+                </Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                mb: "12px",
+              }}
+            >
+              <Button
+                onClick={() => handleBuyBerry(berry)}
+                sx={{
+                  width: "270px",
+                  background: "rgb(54, 95, 172)",
+                  color: "white",
+                  "&:hover": {
+                    background: "rgb(39, 73, 138)",
+                  },
+                }}
+              >
+                Купить
+              </Button>
+            </Box>
+          </Card>
+        );
+      })}
 
-    <Snackbar
-      open={snackbarOpen}
-      autoHideDuration={3000}
-      onClose={handleCloseSnackbar}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-    >
-      <Alert
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
         onClose={handleCloseSnackbar}
-        severity="success"
-        sx={{ width: "100%" }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        {snackbarMessage}
-      </Alert>
-    </Snackbar>
-  </Box>;
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
+    </>
+  );
 }
