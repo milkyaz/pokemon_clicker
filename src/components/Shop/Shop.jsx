@@ -1,19 +1,11 @@
-import {
-  Box,
-  Typography,
-  CardMedia,
-  Button,
-  Card,
-  Snackbar,
-  Alert,
-} from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { Box, Typography } from "@mui/material";
 
-import { fetchItems } from "../../store/slices/itemsSlice";
+import { useState } from "react";
+
 import { styled } from "@mui/material/styles";
 import Select from "react-select";
 import BerriesShop from "../BerriesShop/BerriesShop";
+import ItemsShop from "../ItemsShop/ItemsShop";
 
 const customStyles = {
   option: (provided, state) => ({
@@ -81,33 +73,22 @@ const styles = {
     fontWeight: "bold",
   },
 };
+const Item = styled(Box)(({ theme }) => ({
+  backgroundColor: "#EFEFEF",
+  paddingRight: "5px",
+  paddingBottom: "5px",
+  marginRight: "18px",
+  width: "59px",
+  height: "59px",
+  borderRadius: "4px",
+  ...theme.typography.body2,
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  ...theme.applyStyles("dark", {
+    backgroundColor: "#1A2027",
+  }),
+}));
 export default function Shop({ onBuyBerry }) {
-  const Item = styled(Box)(({ theme }) => ({
-    backgroundColor: "#EFEFEF",
-    paddingRight: "5px",
-    paddingBottom: "5px",
-    marginRight: "18px",
-    width: "59px",
-    height: "59px",
-    borderRadius: "4px",
-    ...theme.typography.body2,
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    ...theme.applyStyles("dark", {
-      backgroundColor: "#1A2027",
-    }),
-  }));
-
-  const dispatch = useDispatch();
-
-  const items = useSelector((state) => state.items.items);
-
-  useEffect(() => {
-    if (!items || items.length === 0) {
-      dispatch(fetchItems());
-    }
-  }, [dispatch, items]);
-
   const [selectedOption, setSelectedOption] = useState(null);
   const options = [
     { value: "option1", label: "Berries" },
@@ -118,10 +99,6 @@ export default function Shop({ onBuyBerry }) {
   const handleChange = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
-
-  if (!items || items.length === 0) {
-    return <Typography>Loading...</Typography>;
-  }
 
   return (
     <Box
@@ -150,124 +127,17 @@ export default function Shop({ onBuyBerry }) {
 
           {selectedOption?.label === "Berries" ? (
             <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
-              <BerriesShop />
+              <BerriesShop onBuyBerry={onBuyBerry} />
             </Box>
           ) : selectedOption?.label === "Items" ? (
             <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
-              {items.map((item, index) => {
-                return (
-                  <Card
-                    sx={{
-                      marginBottom: "8px",
-                    }}
-                    key={index}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        marginBottom: "12px",
-                        mt: "12px",
-                      }}
-                    >
-                      <Item>
-                        <CardMedia
-                          sx={styles.cardMedia}
-                          component="img"
-                          image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`}
-                          id={item.id}
-                          alt={item.name}
-                        />
-                      </Item>
-                      <Box>
-                        <Box></Box>
-                        <Typography variant="p" sx={{ fontSize: "14px" }}>
-                          {item.name}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        mb: "12px",
-                      }}
-                    >
-                      <Button
-                        // onClick={() => handleBuyBerry(item)}
-                        sx={{
-                          width: "270px",
-                          background: "rgb(54, 95, 172)",
-                          color: "white",
-                          "&:hover": {
-                            background: "rgb(39, 73, 138)",
-                          },
-                        }}
-                      >
-                        Купить
-                      </Button>
-                    </Box>
-                  </Card>
-                );
-              })}
+              {" "}
+              <ItemsShop />
             </Box>
           ) : (
             <Box sx={{ overflow: "auto", maxHeight: "400px" }}>
-              <BerriesShop />
-              {items.map((item, index) => {
-                return (
-                  <Card
-                    sx={{
-                      marginBottom: "8px",
-                    }}
-                    key={index}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        marginBottom: "12px",
-                        mt: "12px",
-                      }}
-                    >
-                      <Item>
-                        <CardMedia
-                          sx={styles.cardMedia}
-                          component="img"
-                          image={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${item.name}.png`}
-                          id={item.id}
-                          alt={item.name}
-                        />
-                      </Item>
-                      <Box>
-                        <Box></Box>
-                        <Typography variant="p" sx={{ fontSize: "14px" }}>
-                          {item.name}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        mb: "12px",
-                      }}
-                    >
-                      <Button
-                        // onClick={() => handleBuyBerry(item)}
-                        sx={{
-                          width: "270px",
-                          background: "rgb(54, 95, 172)",
-                          color: "white",
-                          "&:hover": {
-                            background: "rgb(39, 73, 138)",
-                          },
-                        }}
-                      >
-                        Купить
-                      </Button>
-                    </Box>
-                  </Card>
-                );
-              })}
+              <ItemsShop />
+              <BerriesShop onBuyBerry={onBuyBerry} />
             </Box>
           )}
         </div>
