@@ -1,6 +1,6 @@
 
 import { Box, Typography } from "@mui/material";
-import BerryItem from "../BerryItem/BerryItem";
+import BerryItemInventory from "../BerryItemInventory/BerryItem";
 import "./index.css";
 
 export function Inventory({ berries = [] }) {
@@ -21,7 +21,7 @@ export function Inventory({ berries = [] }) {
       <Typography variant="h4" sx={{ fontSize: "24px" }}>
         Инвентарь
       </Typography>
-      <BerryItem items={berries} />
+      <BerryItemInventory items={berries} />
     </Box>
   );
 }

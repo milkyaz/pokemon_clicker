@@ -50,7 +50,7 @@ const Item = styled(Box)(({ theme }) => ({
   }),
 }));
 
-export default function BerryItem({ items = [] }) {
+export default function BerryItemInventory({ items = [] }) {
   if (!items.length) return null;
 
   return (

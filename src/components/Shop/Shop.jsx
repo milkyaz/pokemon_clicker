@@ -48,41 +48,39 @@ const customStyles = {
     fontSize: 20,
   }),
 };
-
+const styles = {
+  modalStyle: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  },
+  cardBox: {
+    boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.5)",
+    borderRadius: "16px",
+    p: "12px",
+  },
+  cardMedia: {
+    width: "59px",
+    height: "59px",
+    padding: "3px",
+  },
+  bottomText: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "8px",
+  },
+  typography: {
+    fontSize: "16px",
+    fontWeight: "bold",
+  },
+};
 export default function Shop({ onBuyBerry }) {
-  const styles = {
-    modalStyle: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 400,
-      bgcolor: "background.paper",
-      border: "2px solid #000",
-      boxShadow: 24,
-      p: 4,
-    },
-    cardBox: {
-      boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.5)",
-      borderRadius: "16px",
-      p: "12px",
-    },
-    cardMedia: {
-      width: "59px",
-      height: "59px",
-      padding: "3px",
-    },
-    bottomText: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "8px",
-    },
-    typography: {
-      fontSize: "16px",
-      fontWeight: "bold",
-    },
-  };
-
   const Item = styled(Box)(({ theme }) => ({
     backgroundColor: "#EFEFEF",
     paddingRight: "5px",
