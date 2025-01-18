@@ -1,16 +1,16 @@
-import { Box, Typography, CardMedia, Button } from "@mui/material";
 
-export function Inventory({ setCount, count }) {
-  const IMAGES = {
-    image3: new URL("./img/money-logo.png", import.meta.url).href,
-  };
+import { Box, Typography } from "@mui/material";
+import BerryItemInventory from "../BerryItemInventory/BerryItem";
+import "./index.css";
+
+export function Inventory({ berries = [] }) {
   return (
     <Box
       className="inventory"
       sx={{
         display: "flex",
         flexDirection: "column",
-        width: "35vh",
+        width: "56vh",
         height: "86vh",
         boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.5)",
         mr: "20px",
@@ -19,28 +19,9 @@ export function Inventory({ setCount, count }) {
       }}
     >
       <Typography variant="h4" sx={{ fontSize: "24px" }}>
-        Inventory
+        Инвентарь
       </Typography>
-
-      <Box className="inventory-items">
-        <Box className="item"></Box>
-      </Box>
-      <Button
-        className="inventory__button"
-        size="small"
-        onClick={() => setCount(count - 1000)}
-      >
-        <CardMedia
-          className={"inventory__button-img"}
-          sx={{ width: "32px" }}
-          component="img"
-          image={IMAGES.image3}
-          alt="Logo"
-        />{" "}
-        <Typography variant="p" sx={{ fontSize: "24px" }}>
-          1000
-        </Typography>
-      </Button>
+      <BerryItemInventory items={berries} />
     </Box>
   );
 }
